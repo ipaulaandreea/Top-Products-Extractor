@@ -1,0 +1,11 @@
+
+ CREATE TABLE IF NOT EXISTS tops (
+ line INT UNSIGNED NOT NULL,
+ type_item VARCHAR(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+ type_top VARCHAR(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+ ident_top VARCHAR(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+ sumofvalues VARCHAR(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+ prod INT NOT NULL DEFAULT 0
+  );
+
+
