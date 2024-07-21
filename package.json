@@ -14,7 +14,9 @@
     "dotenv": "^16.4.5",
     "faker": "^6.6.6",
     "mysql": "^2.18.1",
-    "mysql2": "^3.10.3"
+    "mysql2": "^3.10.3",
+    "prompt-sync": "^4.2.0",
+    "readline-sync": "^1.4.10"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1"
