@@ -10,3 +10,4 @@ An Object-oriented JavaScript application that handles data from a SQL database 
 - Using multiple threads to handle the data;
 - Using pivot tables to store information about type top and type item to further increase the speed of the application;
 - Further separation of concerns between the classes;
+- Formating the SQL queries to be more readable;
