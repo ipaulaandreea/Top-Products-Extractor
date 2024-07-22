@@ -52,7 +52,7 @@ export class Main {
     }
 
 
-    async generateComparisons(type_top, year, period, type_item){
+    async generateComparisons(){
         const typeItems = ['vanzare', 'vizita', 'like'];
         const { newest, oldest } = await getNewestLatestYears();
         try {
