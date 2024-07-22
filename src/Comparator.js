@@ -2,7 +2,7 @@ import { connection } from './db.js';
 
 
 export class Comparator {
-    DB_SOURCE = "tops_test";
+    DB_SOURCE =   process.env.DB_HOST_TEST;
     connection;
 
     constructor() {

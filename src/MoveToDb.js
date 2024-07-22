@@ -2,7 +2,7 @@ import { connection } from './db.js';
 
 export class MoveToDb {
     values = '';
-    RESULTS_DB = "tops_test";
+    RESULTS_DB = process.env.DB_HOST_TEST;
     RESULTS_DB_COLUMNS = "(" +
         "prod, " +
         "line, " +

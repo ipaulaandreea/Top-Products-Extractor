@@ -7,15 +7,19 @@ export class FetchFromDb {
     period;
     type_item;
     year;
+    month;
+    week;
     type_top;
-    DB_SOURCE = "tops_test";
+    DB_SOURCE="tops_test";
     connection;
 
-    constructor(type_top, year = null, period = null, type_item) {
+    constructor(type_top, year = null, month = null, week = null, type_item) {
         this.year = year;
+        this.month = month;
+        this.week = week;
         this.type_item = type_item;
         this.type_top = type_top;
-        this.period = period;
+        this.period = week != null ? `${week}.${year}` : month != null ? `${month}.${year}` : `${year}`;
         this.connection = connection;
     }
 
@@ -26,8 +30,8 @@ export class FetchFromDb {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(results);
                     this.addResults(results);
+                    resolve(results);
                 }
             });
         });
@@ -40,19 +44,20 @@ export class FetchFromDb {
                 sql = `SELECT * FROM ${this.DB_SOURCE} WHERE type_item = ? AND type_top = ? AND ident_top = ?;`;
                 return this.connection.format(sql, [this.type_item, this.type_top, this.year]);
             case 'lunar':
+                sql = `SELECT * FROM ${this.DB_SOURCE} WHERE type_top = ? AND type_item = ? AND SUBSTRING_INDEX(ident_top, '.', 1) = ? AND SUBSTRING_INDEX(ident_top, '.', -1) = ? ORDER BY CAST(SUBSTRING_INDEX(ident_top, '.', -1) AS UNSIGNED) ASC, CAST(SUBSTRING_INDEX(ident_top, '.', 1) AS UNSIGNED) ASC;`;
+                return this.connection.format(sql, [this.type_top, this.type_item, this.month, this.year]);
             case 'saptamanal':
                 sql = `SELECT * FROM ${this.DB_SOURCE} WHERE type_top = ? AND type_item = ? AND SUBSTRING_INDEX(ident_top, '.', 1) = ? AND SUBSTRING_INDEX(ident_top, '.', -1) = ? ORDER BY CAST(SUBSTRING_INDEX(ident_top, '.', -1) AS UNSIGNED) ASC, CAST(SUBSTRING_INDEX(ident_top, '.', 1) AS UNSIGNED) ASC;`;
-                return this.connection.format(sql, [this.type_top, this.type_item, this.period, this.year]);
+                return this.connection.format(sql, [this.type_top, this.type_item, this.week, this.year]);
             default:
                 throw new Error('Invalid type_top');
         }
     }
 
     addResults(results) {
-        switch (this.period) {
+        switch (this.type_top) {
             case 'anual':
                 this.results_by_year = results;
-                console.log(this.results_by_year);
                 break;
             case 'lunar':
                 this.results_by_month = results;
@@ -60,7 +65,8 @@ export class FetchFromDb {
             case 'saptamanal':
                 this.results_by_week = results;
                 break;
-
+            default:
+                throw new Error('Invalid type_top');
         }
     }
 }
